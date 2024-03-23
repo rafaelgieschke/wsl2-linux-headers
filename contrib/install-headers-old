@@ -1,0 +1,5 @@
+#!/bin/sh -xeu
+
+cd -- "$(dirname -- "$(realpath -- "$0")")"
+make modules_prepare
+exec sudo ln -sT "$(dirname -- "$(realpath -- "$0")")" "/lib/modules/$(uname -r)"

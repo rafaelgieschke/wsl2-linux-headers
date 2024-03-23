@@ -1,0 +1,15 @@
+on: push
+jobs:
+  headers:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@HEAD
+    - run: |
+        version="$(make kernelversion)"
+        make headers_install KCONFIG_CONFIG=Microsoft/config-wsl INSTALL_HDR_PATH="artifacts/linux-headers-$version"
+        find \( -name "Makefile*" -o -name "Kbuild.*" -o -name "Platform" \
+          -o -name include -o -name scripts \) -print0 | \
+          cpio -pmd0 "artifacts/linux-headers-$version/"
+    - uses: actions/upload-artifact@HEAD
+      with:
+        path: artifacts
