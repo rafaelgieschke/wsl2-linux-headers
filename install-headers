@@ -1,0 +1,6 @@
+#!/bin/sh -xeu
+
+cd -- "$(dirname -- "$(realpath -- "$0")")"
+ln -s Microsoft/config-wsl build/.config || :
+make -C build modules_prepare
+exec sudo ln -sT "$(dirname -- "$(realpath -- "$0")")" "/lib/modules/$(uname -r)"
