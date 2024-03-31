@@ -1,6 +1,14 @@
 #!/bin/sh -xeu
+selfDir="$(dirname -- "$(realpath -- "$0")")"
+dest="/lib/modules/$(uname -r)"
 
-cd -- "$(dirname -- "$(realpath -- "$0")")"
+cd -- "$selfDir"
+if test "$(git submodule status | head -c 1)" = "-"; then
+  git submodule update --init --depth 1
+fi
 ln -s Microsoft/config-wsl build/.config || :
 make -C build modules_prepare
-exec sudo ln -sT "$(dirname -- "$(realpath -- "$0")")" "/lib/modules/$(uname -r)"
+if test -d "$dest" && ! test -L "$dest"; then
+  exec sudo ln -sT "$selfDir/build" "$dest/build"
+fi
+exec sudo ln -sT "$selfDir" "$dest"
