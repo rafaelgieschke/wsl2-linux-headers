@@ -1,3 +1,5 @@
 [submodule "WSL2-Linux-Kernel"]
 	path = WSL2-Linux-Kernel
 	url = https://github.com/microsoft/WSL2-Linux-Kernel
+[submodule "WSL2-Linux-Kernel/"]
+	branch = linux-msft-wsl-5.15.y
